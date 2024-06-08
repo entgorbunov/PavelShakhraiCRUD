@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDate;
-
 @Value
 @Builder
-public class CreateUserDto {
+public class UserDtoDB {
     Long id;
     String name;
     LocalDate registrationDate;
     String login;
     Role role;
-
 }

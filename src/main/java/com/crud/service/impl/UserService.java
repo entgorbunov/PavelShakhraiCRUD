@@ -2,9 +2,11 @@ package com.crud.service.impl;
 
 import com.crud.dao.impl.UserDao;
 import com.crud.dto.CreateUserDto;
+import com.crud.dto.UserDtoDB;
 import com.crud.entity.User;
 import com.crud.exceptions.ServiceException;
 import com.crud.mapper.impl.UserMapper;
+import com.crud.mapper.impl.UserMapperDB;
 import com.crud.service.Service;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 public class UserService  implements Service<CreateUserDto, Long> {
-    private static final java.util.logging.Logger LOGGER = Logger.getLogger(UserDao.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UserDao.class.getName());
     private static final UserDao USER_DAO = UserDao.getInstance();
     private static final UserMapper USER_MAPPER = UserMapper.getInstance();
     private static final AtomicReference<UserService> INSTANCE = new AtomicReference<>();
@@ -56,16 +58,13 @@ public class UserService  implements Service<CreateUserDto, Long> {
 
     @Override
     public CreateUserDto update(CreateUserDto createUserDto) {
-        try {
-            User user = USER_MAPPER.toEntity(createUserDto);
-            User update = USER_DAO.update(user);
-            return USER_MAPPER.toCreateUserDto(update);
+        return null;
 
+    }
 
-        }catch (ServiceException e) {
-            LOGGER.severe("Error updating user: " + e.getMessage());
-            throw new ServiceException("Error updating user", e);
-        }
+    public CreateUserDto updateWithDto(CreateUserDto createUserDto) {
+        USER_DAO.updateWithDto(createUserDto);
+        return createUserDto;
     }
 
     @Override
@@ -96,4 +95,8 @@ public class UserService  implements Service<CreateUserDto, Long> {
             throw new ServiceException("Error finding user", e);
         }
     }
+
+
+
+
 }

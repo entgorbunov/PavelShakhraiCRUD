@@ -24,7 +24,7 @@ public class UserMapper {
     public User toEntity(CreateUserDto createUserDto) {
         return User.builder()
                 .id(createUserDto.getId())
-                .name(createUserDto.getUsername())
+                .name(createUserDto.getName())
                 .registrationDate(createUserDto.getRegistrationDate())
                 .login(createUserDto.getLogin())
                 .role(createUserDto.getRole())
@@ -34,7 +34,7 @@ public class UserMapper {
     public CreateUserDto toCreateUserDto(User user) {
         return CreateUserDto.builder()
                 .id(user.getId())
-                .username(user.getName())
+                .name(user.getName())
                 .registrationDate(user.getRegistrationDate())
                 .login(user.getLogin())
                 .role(user.getRole())
