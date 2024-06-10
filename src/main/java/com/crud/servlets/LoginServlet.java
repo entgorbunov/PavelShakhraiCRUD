@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.getRequestDispatcher("/WEB_INF/jsp/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {
             LOGGER.severe("Error while processing request");
             throw new ServletCrudException("Error while processing request", e);
@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        USER_SERVICE.login(req.getParameter("email"), req.getParameter("password"))
+        USER_SERVICE.login(req.getParameter("login"))
                 .ifPresentOrElse(
                         user -> onLoginSuccess(user, req, resp),
                         () -> onLoginFail(req, resp)
@@ -74,8 +74,5 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    @Override
-    public void destroy() {
-        ConnectionManager.closeConnection();
-    }
+
 }

@@ -14,16 +14,15 @@
     <label for="login">Login:
         <input type="text" name="login" id="login" value="${param.login}" required>
     </label><br>
-    <label for="password">Password:
-        <input type="password" name="password" id="password" required>
-    </label><br>
+
     <button type="submit">Login</button>
-    <a href="${pageContext.request.contextPath}/registration">
-        <button type="submit">Register</button>
+    <a href="<c:url value='/registration' />">
+        <button type="button">Register</button>
     </a>
+
     <c:if test="${param.error != null}">
         <div class="error">
-            <span>Email or password is not correct</span>
+            <span>Login is not correct</span>
         </div>
     </c:if>
 </form>

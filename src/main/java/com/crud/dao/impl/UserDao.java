@@ -20,11 +20,11 @@ public class UserDao implements BaseDao<User, Long> {
     private static final String UPDATE = "UPDATE users SET name = ?, registration_date = ?, login = ?, role_id = ? WHERE id = ?;";
 
     private static final String DELETE = "DELETE FROM users WHERE id = ?;";
-    public static final String INSERT = "INSERT INTO users (name, registration_date, login, role_id) VALUES (?, ?, ?, ?);";
-    public static final String  FIND_BY_ID = "SELECT name, registration_date, login, role_id FROM users WHERE id = ?;";
-    public static final String FIND_ALL = "SELECT name, registration_date, login, role_id FROM users;";
+    public static final String INSERT = "INSERT INTO users (name, registration_date, login) VALUES (?, ?, ?);";
+    public static final String  FIND_BY_ID = "SELECT id, name, registration_date, login, role_id FROM users WHERE id = ?;";
+    public static final String FIND_ALL = "SELECT id, name, registration_date, login, role_id FROM users;";
 
-    private static final String GET_BY_EMAIL_AND_PASSWORD = "Select id, name, registration_date, login from users where email = ? and password = ?;";
+    private static final String GET_BY_LOGIN = "Select id, name, registration_date, login from users where login = ?;";
     public static final AtomicReference<UserDao> USER_DAO = new AtomicReference<>();
 
     public static UserDao getInstance() {
@@ -124,7 +124,9 @@ public class UserDao implements BaseDao<User, Long> {
     public void save(User entity) {
         try (Connection connection = ConnectionManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-            setUser(entity, preparedStatement);
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.setDate(2, Date.valueOf(entity.getRegistrationDate()));
+            preparedStatement.setString(3, entity.getLogin());
             var affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 LOGGER.severe("Failed to save user");
@@ -196,11 +198,10 @@ public class UserDao implements BaseDao<User, Long> {
         return users;
     }
 
-    public Optional<User> findByEmailAndPassword(String email, String password) {
+    public Optional<User> findByEmailAndPassword(String login) {
         try (Connection connection = ConnectionManager.getConnection();
-        var preparedStatement = connection.prepareStatement(GET_BY_EMAIL_AND_PASSWORD)) {
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
+        var preparedStatement = connection.prepareStatement(GET_BY_LOGIN)) {
+            preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             User user = null;
             if (resultSet.next()) {
@@ -209,19 +210,20 @@ public class UserDao implements BaseDao<User, Long> {
             return Optional.ofNullable(user);
         } catch (SQLException e) {
             LOGGER.severe("Error finding user by email: " + e.getMessage());
-            throw new DaoException("Error while finding user by email: " + email, e);
+            throw new DaoException("Error while finding user by login: " + login, e);
         }
     }
 
     private User buildUser(ResultSet resultSet) {
         try {
-            return new User(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getDate("registrationDate").toLocalDate(),
-                    resultSet.getString("login"),
-                    resultSet.getObject("role", Role.class)
-            );
+            return User.builder()
+                    .id(resultSet.getLong("id"))
+                    .name(resultSet.getString("name"))
+                    .registrationDate(resultSet.getDate("registration_date").toLocalDate())
+                    .login(resultSet.getString("login"))
+                    .build();
+
+
         } catch (SQLException e) {
             LOGGER.severe("Error while building user: " + e.getMessage());
             throw new DaoException("Error while building user: " + e.getMessage());

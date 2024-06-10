@@ -65,8 +65,8 @@ public class UserServiceDB implements Service<UserDtoDB, Long> {
         return USER_MAPPER_DB.toDto(user);
     }
 
-    public Optional<UserDtoDB> login(String email, String password) {
-        return USER_DAO.findByEmailAndPassword(email, password)
+    public Optional<UserDtoDB> login(String login) {
+        return USER_DAO.findByEmailAndPassword(login)
                 .map(USER_MAPPER_DB::toDto);
     }
 }
