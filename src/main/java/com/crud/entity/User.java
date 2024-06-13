@@ -1,9 +1,9 @@
 package com.crud.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Builder
 @Getter
@@ -12,15 +12,24 @@ import java.util.Date;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "registration_date")
     private LocalDate registrationDate;
+
+    @Column(name = "login")
     private String login;
-    @Builder.Default
-    private Role role = Role.USER;
-    public User(Long id) {
-        this.id = id;
-    }
+
+    @Column(name = "role_id")
+    private Integer roleId;
 }
 

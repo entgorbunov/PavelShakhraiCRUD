@@ -3,6 +3,7 @@ package com.crud.servlets;
 import com.crud.dataSource.ConnectionManager;
 import com.crud.dto.CreateUserDto;
 import com.crud.entity.Role;
+import com.crud.exceptions.ServletCrudException;
 import com.crud.service.impl.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,6 +32,7 @@ public class RegistrationServlet extends HttpServlet {
                 .login(req.getParameter("login"))
                 .name(req.getParameter("name"))
                 .registrationDate(date)
+                .role("USER")
                 .build();
 
         Long aLong = USER_SERVICE.create(userDto);

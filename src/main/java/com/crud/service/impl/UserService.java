@@ -56,14 +56,15 @@ public class UserService  implements Service<CreateUserDto, Long> {
         }
     }
 
-    @Override
-    public CreateUserDto update(CreateUserDto createUserDto) {
-        return null;
 
-    }
 
     public CreateUserDto updateWithDto(CreateUserDto createUserDto) {
-        USER_DAO.updateWithDto(createUserDto);
+        try {
+            USER_DAO.updateWithDto(createUserDto);
+        } catch (ServiceException e) {
+            LOGGER.severe("Error updating user: " + e.getMessage());
+            throw new ServiceException("Error updating user", e);
+        }
         return createUserDto;
     }
 
@@ -94,6 +95,12 @@ public class UserService  implements Service<CreateUserDto, Long> {
             LOGGER.severe("Error finding user: " + e.getMessage());
             throw new ServiceException("Error finding user", e);
         }
+    }
+
+    @Override
+    public CreateUserDto update(CreateUserDto createUserDto) {
+        return null;
+
     }
 
 

@@ -25,7 +25,7 @@ public class UserMapperDB {
                 .name(userDtoDB.getName())
                 .registrationDate(userDtoDB.getRegistrationDate())
                 .login(userDtoDB.getLogin())
-                .role(userDtoDB.getRole())
+                .roleId(userDtoDB.getRole())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class UserMapperDB {
                 .name(user.getName())
                 .registrationDate(user.getRegistrationDate())
                 .login(user.getLogin())
-                .role(user.getRole())
+                .role(user.getRoleId())
                 .build();
     }
 }

@@ -28,5 +28,9 @@ public enum Role {
                 .findFirst();
     }
 
+    public static Optional<Integer> getIdByRoleName(String roleName) {
+        return findByRoleName(roleName).map(Role::getId);
+    }
+
 }
 

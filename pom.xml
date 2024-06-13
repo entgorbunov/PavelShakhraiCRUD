@@ -21,8 +21,47 @@
         <tomcat-version>11.0.0-M19</tomcat-version>
         <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
         <postgre.version>42.7.3</postgre.version>
+        <org.hibernate>6.5.2.Final</org.hibernate>
+        <javax.persistance>2.2</javax.persistance>
+        <com.zaxxer>5.1.0</com.zaxxer>
+        <slf4j-api>2.0.13</slf4j-api>
+        <slf4j-reload4j>2.0.13</slf4j-reload4j>
     </properties>
     <dependencies>
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>2.0.13</version>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${org.hibernate}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>${javax.persistance}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${com.zaxxer}</version>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -80,6 +119,9 @@
             <version>${javax.servlet-api-version}</version>
             <scope>provided</scope>
         </dependency>
+
+
+
     </dependencies>
 
 </project>

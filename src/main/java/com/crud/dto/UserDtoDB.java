@@ -12,5 +12,5 @@ public class UserDtoDB {
     String name;
     LocalDate registrationDate;
     String login;
-    Role role;
+    Integer role;
 }

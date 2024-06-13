@@ -1,6 +1,7 @@
 package com.crud.mapper.impl;
 
 import com.crud.dto.CreateUserDto;
+import com.crud.entity.Role;
 import com.crud.entity.User;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -27,7 +28,8 @@ public class UserMapper {
                 .name(createUserDto.getName())
                 .registrationDate(createUserDto.getRegistrationDate())
                 .login(createUserDto.getLogin())
-                .role(createUserDto.getRole())
+                .roleId(Role.getIdByRoleName(createUserDto.getRole())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid role name: " + createUserDto.getRole())))
                 .build();
     }
 
@@ -37,7 +39,7 @@ public class UserMapper {
                 .name(user.getName())
                 .registrationDate(user.getRegistrationDate())
                 .login(user.getLogin())
-                .role(user.getRole())
+                .role("USER")
                 .build();
     }
 }

@@ -13,6 +13,5 @@ public class CreateUserDto {
     String name;
     LocalDate registrationDate;
     String login;
-    Role role;
-
+    String role;
 }
